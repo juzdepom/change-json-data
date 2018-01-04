@@ -2,6 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- this is how you import data -->
 <script type="text/javascript" src="data.js"></script>
+<script type="text/javascript" src="walmart.js"></script>
 </head>
 
 <p id="test">
@@ -10,20 +11,73 @@
 
 <script>
 $( document ).ready(function() {
-  console.log(data)
-  //for some reason I have to loop multiple times in order to
-  loop();
-  check();
-  loop();
-  check();
-  loop();
-  check();
-  WriteToFile();
-  function WriteToFile()
+
+  console.log(walmart)
+
+  // "Name": "Walmart Supercenter in Birmingham",
+  // "Address1": "2473 Hackworth Rd",
+  // "Address2": null,
+  // "City": "Birmingham, AL 35214",
+  // "State": "AL",
+  // "Latitude": 33.580824,
+  // "Longitude": -86.923174
+
+  // NEEDS TO BECOME
+
+  // "Name": "Walmart Supercenter in Birmingham",
+  // "Address1": "2473 Hackworth Rd",
+  // "Address2": null,
+  // "City": "Birmingham, AL 35214",
+  // "State": "AL",
+  // "Postal": "AL"
+  // "Latitude": 33.580824,
+  // "Longitude": -86.923174
+  var newWalmart = []
+  loopWalmart()
+  console.log(newWalmart)
+  WriteToFile(newWalmart)
+
+
+  function loopWalmart(){
+    walmart.forEach(shop => {
+      var address = shop["City"]
+      var x = address.split(",")
+      var city = x[0]
+      // console.log(city)
+      x = x[1].split(" ")
+      var postal = x[2]
+      // console.log(city + "---" + postal)``
+
+      const newShop = {
+        "Name": shop["Name"],
+        "Address1": shop["Address1"],
+        "Address2": null,
+        "City": city,
+        "State": shop["State"],
+        "Postal": postal,
+        "Latitude": shop["Latitude"],
+        "Longitude": shop["Longitude"]
+      }
+
+      newWalmart.push(newShop)
+    })
+  }
+
+  function WriteToFile(array)
     {
-      var str = JSON.stringify(data, null, 2);
+      var str = JSON.stringify(array, null, 2);
       console.log(str)
      }
+  //CORRECTING DATA FILE
+  //for some reason I have to loop multiple times in order to
+  // loop();
+  // check();
+  // loop();
+  // check();
+  // loop();
+  // check();
+  // WriteToFile(data);
+
   function loop(){
     data.forEach(shop => {
       if(shop["Longitude"]==null){
