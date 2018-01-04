@@ -3,6 +3,7 @@
 <!-- this is how you import data -->
 <script type="text/javascript" src="data.js"></script>
 <script type="text/javascript" src="walmart.js"></script>
+<script type="text/javascript" src="fileSaver.js"></script>
 </head>
 
 <p id="test">
@@ -34,8 +35,10 @@ $( document ).ready(function() {
   // "Longitude": -86.923174
   var newWalmart = []
   loopWalmart()
-  console.log(newWalmart)
-  WriteToFile(newWalmart)
+  // console.log(newWalmart)
+  var str = turnArrayToString(newWalmart)
+  console.log(str)
+  createTxtFile(str)
 
 
   function loopWalmart(){
@@ -63,11 +66,16 @@ $( document ).ready(function() {
     })
   }
 
-  function WriteToFile(array)
+  function turnArrayToString(array)
     {
       var str = JSON.stringify(array, null, 2);
-      console.log(str)
+      return str
      }
+
+  function createTxtFile(content){
+    var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "file.txt");
+  }
   //CORRECTING DATA FILE
   //for some reason I have to loop multiple times in order to
   // loop();
